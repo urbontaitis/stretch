@@ -1,114 +1,242 @@
-// Minimal line-art illustrations of each stretch, in the spirit of the
-// original chart. Per-leg exercises are mirrored for the right leg.
+// Stretch illustrations redrawn from the "Važiavimas dviračiu" cycling chart.
+// 200×200 viewBox. Oriented for the LEFT leg — mirrored automatically for right.
+//
+// CSS classes used:
+//   .head   — filled circle for the head
+//   .limb   — body stroke (arms, legs, torso)
+//   .muscle — FILLED shape for the highlighted/stretched muscle (matches original black-fill style)
+//   .prop   — equipment stroke (box, bar, floor line, pole)
 
 const FIGURES = {
+
+  // 37 — seated stretch on box: left leg extended along box surface
   hamstringSupport: (
     <>
-      <rect x="108" y="112" width="62" height="56" className="prop" />
-      <circle cx="103" cy="42" r="11" className="head" />
-      <path d="M70 96 L96 56" className="limb" />
-      <path d="M96 56 L108 88" className="limb" />
-      <path d="M70 96 L70 136 L70 180" className="limb" />
-      <path d="M70 96 L120 106" className="accent" />
-      <path d="M120 106 L132 102" className="limb" />
+      {/* Box / plinth on right */}
+      <rect x="100" y="110" width="82" height="58" className="prop" />
+      {/* Head — sitting, leaning toward extended leg */}
+      <circle cx="130" cy="38" r="12" className="head" />
+      {/* Neck + torso leaning left */}
+      <path d="M130 50 L114 92" className="limb" />
+      {/* Hip down to box surface */}
+      <path d="M114 92 L108 112" className="limb" />
+      {/* Extended LEFT leg along top of box */}
+      <path d="M108 112 L30 106" className="limb" />
+      {/* Foot */}
+      <path d="M30 106 L18 110" className="limb" />
+      {/* Right leg hanging off box */}
+      <path d="M108 112 L116 168" className="limb" />
+      {/* Arm reaching toward left foot */}
+      <path d="M118 68 L54 100" className="limb" />
+      <path d="M118 68 L138 82" className="limb" />
+      {/* Hamstring highlight — filled oval along top of extended thigh */}
+      <ellipse cx="70" cy="105" rx="40" ry="10" className="muscle"
+               transform="rotate(-3 70 105)" />
     </>
   ),
+
+  // 40 — deep lunge with diagonal pole, front shin highlighted
   calfWall: (
     <>
-      <path d="M152 18 L152 182" className="prop" />
-      <circle cx="76" cy="42" r="11" className="head" />
-      <path d="M64 106 L86 58" className="limb" />
-      <path d="M86 58 L148 74" className="limb" />
-      <path d="M64 106 L96 134 L104 178" className="limb" />
-      <path d="M64 106 L34 178" className="accent" />
-      <path d="M34 178 L22 180" className="limb" />
+      {/* Long diagonal pole (top-left → bottom-right) */}
+      <path d="M50 18 L166 176" className="prop" />
+      {/* Head */}
+      <circle cx="96" cy="50" r="12" className="head" />
+      {/* Torso upright */}
+      <path d="M96 62 L98 108" className="limb" />
+      {/* Arms gripping pole — upper hand left, lower hand right */}
+      <path d="M97 78 L70 50" className="limb" />
+      <path d="M97 78 L122 96" className="limb" />
+      {/* Front LEFT thigh */}
+      <path d="M98 108 L76 146" className="limb" />
+      {/* Front LEFT shin */}
+      <path d="M76 146 L66 176" className="limb" />
+      {/* Back RIGHT leg extended */}
+      <path d="M98 108 L140 138 L156 176" className="limb" />
+      {/* Shin highlight — tall oval on lower front leg */}
+      <ellipse cx="70" cy="162" rx="11" ry="20" className="muscle"
+               transform="rotate(-12 70 162)" />
     </>
   ),
+
+  // 22 — running-stride lunge, LEFT trailing hip flexor highlighted
   quadStanding: (
     <>
-      <circle cx="93" cy="30" r="11" className="head" />
-      <path d="M94 44 L96 100" className="limb" />
-      <path d="M96 100 L94 140 L94 182" className="limb" />
-      <path d="M96 100 L102 140" className="accent" />
-      <path d="M102 140 L120 112" className="limb" />
-      <path d="M94 44 L122 110" className="limb" />
-      <path d="M94 44 L58 60" className="limb" />
+      {/* Head */}
+      <circle cx="112" cy="30" r="12" className="head" />
+      {/* Torso, slight forward lean */}
+      <path d="M112 42 L110 96" className="limb" />
+      {/* RIGHT leg striding forward */}
+      <path d="M110 96 L128 134 L136 170" className="limb" />
+      {/* LEFT leg trailing behind */}
+      <path d="M110 96 L88 134 L66 168" className="limb" />
+      {/* Arms in running motion */}
+      <path d="M110 68 L134 86" className="limb" />
+      <path d="M110 68 L86 50" className="limb" />
+      {/* Hip-flexor / groin highlight on left side — large teardrop */}
+      <ellipse cx="98" cy="116" rx="20" ry="26" className="muscle"
+               transform="rotate(20 98 116)" />
     </>
   ),
+
+  // 18 — standing, left knee raised, large hip/groin highlighted
   kneeHug: (
     <>
-      <circle cx="82" cy="28" r="11" className="head" />
-      <path d="M82 42 L84 100" className="limb" />
-      <path d="M84 100 L84 142 L84 182" className="limb" />
-      <path d="M84 100 L52 86" className="accent" />
-      <path d="M52 86 L58 122" className="limb" />
-      <path d="M82 42 L52 88" className="limb" />
+      {/* Small stool underfoot */}
+      <rect x="62" y="162" width="44" height="12" className="prop" />
+      {/* Head */}
+      <circle cx="100" cy="28" r="12" className="head" />
+      {/* Torso upright */}
+      <path d="M100 40 L100 98" className="limb" />
+      {/* RIGHT leg standing */}
+      <path d="M100 98 L108 134 L114 162" className="limb" />
+      {/* LEFT leg raised — thigh up, shin forward */}
+      <path d="M100 98 L82 132" className="limb" />
+      <path d="M82 132 L94 160" className="limb" />
+      {/* Arms wrapping raised knee */}
+      <path d="M97 66 L76 98" className="limb" />
+      <path d="M97 66 L120 82" className="limb" />
+      {/* Hip / iliopsoas highlight — large filled shape */}
+      <ellipse cx="90" cy="112" rx="22" ry="28" className="muscle"
+               transform="rotate(15 90 112)" />
     </>
   ),
+
+  // 31 — butterfly seated: both inner thighs filled
   butterfly: (
     <>
-      <circle cx="100" cy="44" r="11" className="head" />
-      <path d="M100 58 L100 112" className="limb" />
-      <path d="M100 112 L54 128 L98 150" className="accent" />
-      <path d="M100 112 L146 128 L102 150" className="accent" />
-      <path d="M100 62 L92 144" className="limb" />
-      <path d="M100 62 L108 144" className="limb" />
-      <path d="M30 160 L170 160" className="prop" />
+      {/* Floor */}
+      <path d="M16 174 L184 174" className="prop" />
+      {/* Head */}
+      <circle cx="100" cy="42" r="12" className="head" />
+      {/* Torso sitting */}
+      <path d="M100 54 L100 110" className="limb" />
+      {/* LEFT leg in butterfly */}
+      <path d="M100 110 L52 134 L84 160" className="limb" />
+      {/* RIGHT leg in butterfly */}
+      <path d="M100 110 L148 134 L116 160" className="limb" />
+      {/* Arm to left foot */}
+      <path d="M97 84 L58 154" className="limb" />
+      {/* Arm to right foot */}
+      <path d="M97 84 L140 154" className="limb" />
+      {/* LEFT inner thigh highlight */}
+      <ellipse cx="72" cy="138" rx="22" ry="11" className="muscle"
+               transform="rotate(-32 72 138)" />
+      {/* RIGHT inner thigh highlight */}
+      <ellipse cx="128" cy="138" rx="22" ry="11" className="muscle"
+               transform="rotate(32 128 138)" />
     </>
   ),
+
+  // 30 — lying hip/glute stretch: large hip filled
   lyingTwist: (
     <>
-      <path d="M20 158 L180 158" className="prop" />
-      <circle cx="32" cy="138" r="11" className="head" />
-      <path d="M44 144 L102 148" className="limb" />
-      <path d="M102 148 L172 150" className="limb" />
-      <path d="M102 148 L74 112" className="accent" />
-      <path d="M74 112 L96 120" className="limb" />
-      <path d="M48 146 L74 116" className="limb" />
+      {/* Floor */}
+      <path d="M12 164 L188 164" className="prop" />
+      {/* Head */}
+      <circle cx="28" cy="134" r="12" className="head" />
+      {/* Body along floor */}
+      <path d="M40 146 L134 150" className="limb" />
+      {/* Right leg flat */}
+      <path d="M134 150 L168 154" className="limb" />
+      {/* LEFT leg bent and crossing: thigh up, shin over */}
+      <path d="M82 150 L60 116" className="limb" />
+      <path d="M60 116 L102 122" className="limb" />
+      {/* Left arm outstretched for balance */}
+      <path d="M42 148 L14 128" className="limb" />
+      {/* Hip/glute highlight — large oval */}
+      <ellipse cx="100" cy="148" rx="32" ry="20" className="muscle" />
     </>
   ),
+
+  // 50 — lying crunch: lower back / core filled
   backCurl: (
     <>
-      <path d="M20 162 L180 162" className="prop" />
-      <circle cx="56" cy="116" r="11" className="head" />
-      <path d="M68 126 L112 156" className="accent" />
-      <path d="M112 156 L138 116" className="limb" />
-      <path d="M138 116 L158 156" className="limb" />
-      <path d="M66 128 L48 122" className="limb" />
+      {/* Floor */}
+      <path d="M12 168 L188 168" className="prop" />
+      {/* Head raised slightly */}
+      <circle cx="44" cy="110" r="12" className="head" />
+      {/* Curled torso */}
+      <path d="M56 122 L114 158" className="limb" />
+      {/* LEFT thigh up */}
+      <path d="M114 158 L142 124" className="limb" />
+      {/* LEFT shin */}
+      <path d="M142 124 L156 158" className="limb" />
+      {/* Hands behind head */}
+      <path d="M56 122 L32 112" className="limb" />
+      <path d="M56 122 L60 108" className="limb" />
+      {/* Core / lower-back highlight */}
+      <ellipse cx="84" cy="138" rx="30" ry="13" className="muscle"
+               transform="rotate(-22 84 138)" />
     </>
   ),
+
+  // 4 — forward fold at horizontal bar: upper back filled
   barBend: (
     <>
-      <path d="M104 66 L186 66" className="prop" />
-      <path d="M178 66 L178 182" className="prop" />
-      <circle cx="106" cy="100" r="11" className="head" />
-      <path d="M48 108 L100 86" className="accent" />
-      <path d="M100 86 L148 68" className="limb" />
-      <path d="M48 108 L46 182" className="limb" />
-      <path d="M56 108 L58 182" className="limb" />
+      {/* Vertical post */}
+      <path d="M162 48 L162 186" className="prop" />
+      {/* Horizontal bar */}
+      <path d="M90 48 L162 48" className="prop" />
+      {/* Head forward, level with bar */}
+      <circle cx="92" cy="90" r="12" className="head" />
+      {/* Horizontal torso */}
+      <path d="M28 114 L92 82" className="limb" />
+      {/* Arms to bar */}
+      <path d="M92 82 L136 50" className="limb" />
+      {/* Left leg */}
+      <path d="M28 114 L26 150 L22 180" className="limb" />
+      {/* Right leg */}
+      <path d="M28 114 L38 150 L40 180" className="limb" />
+      {/* Upper back / shoulder highlight */}
+      <ellipse cx="60" cy="96" rx="34" ry="14" className="muscle"
+               transform="rotate(-18 60 96)" />
     </>
   ),
+
+  // 12 — all-fours kneeling reach: hip / lower back filled
   kneelingReach: (
     <>
-      <path d="M20 172 L180 172" className="prop" />
-      <circle cx="56" cy="134" r="11" className="head" />
-      <path d="M124 142 L70 148" className="accent" />
-      <path d="M124 142 L122 170" className="limb" />
-      <path d="M122 170 L162 168" className="limb" />
-      <path d="M70 148 L34 168" className="limb" />
+      {/* Floor */}
+      <path d="M12 174 L188 174" className="prop" />
+      {/* Head low */}
+      <circle cx="36" cy="124" r="12" className="head" />
+      {/* Torso reaching forward */}
+      <path d="M48 134 L108 154" className="limb" />
+      {/* Near knee */}
+      <path d="M108 154 L118 174" className="limb" />
+      {/* Hip back toward heels */}
+      <path d="M108 154 L150 164 L164 174" className="limb" />
+      {/* Arms on floor */}
+      <path d="M52 132 L14 150" className="limb" />
+      {/* Hip / lower-back highlight */}
+      <ellipse cx="130" cy="162" rx="24" ry="14" className="muscle" />
     </>
   ),
+
+  // 44 — close-up foot stretch: sole / achilles filled
   toeFlex: (
     <>
-      <path d="M20 166 L180 166" className="prop" />
-      <circle cx="104" cy="78" r="11" className="head" />
-      <path d="M120 160 L106 92" className="limb" />
-      <path d="M120 160 L76 140 L62 162" className="limb" />
-      <path d="M62 162 L50 148" className="accent" />
-      <path d="M106 96 L52 146" className="limb" />
-      <path d="M120 160 L152 164" className="limb" />
+      {/* Floor */}
+      <path d="M12 168 L188 168" className="prop" />
+      {/* Lower leg */}
+      <path d="M102 44 L94 124" className="limb" />
+      {/* Ankle to heel */}
+      <path d="M94 124 L82 164" className="limb" />
+      {/* Foot (horizontal) */}
+      <path d="M82 164 L48 158" className="limb" />
+      {/* Toes pulled back */}
+      <path d="M48 158 L38 148" className="limb" />
+      {/* Arm reaching down */}
+      <path d="M98 92 L50 152" className="limb" />
+      {/* Hand at toes */}
+      <path d="M50 152 L30 144" className="limb" />
+      {/* Sole / achilles highlight — large oval on foot */}
+      <ellipse cx="64" cy="158" rx="22" ry="12" className="muscle"
+               transform="rotate(-12 64 158)" />
     </>
   )
+
 };
 
 export function Figure({ name, mirrored = false }) {

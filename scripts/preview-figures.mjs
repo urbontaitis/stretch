@@ -12,7 +12,7 @@ let m;
 while ((m = figRe.exec(src))) {
   const [, name, body] = m;
   const shapes = [];
-  for (const tag of body.matchAll(/<(path|circle|rect)([^/]*)\/>/g)) {
+  for (const tag of body.matchAll(/<(path|circle|ellipse|rect)([^/]*)\/>/g)) {
     const attrs = {};
     for (const a of tag[2].matchAll(/(\w+)="([^"]*)"/g)) attrs[a[1]] = a[2];
     shapes.push({ type: tag[1], ...attrs });
@@ -28,7 +28,7 @@ const H = CELL * ROWS;
 
 const COLORS = {
   limb: [31, 41, 55],
-  accent: [22, 163, 74],
+  muscle: [22, 163, 74],
   head: [31, 41, 55],
   prop: [180, 185, 192]
 };
@@ -43,6 +43,24 @@ const distSeg = (px, py, x1, y1, x2, y2) => {
 function shapeDist(s, x, y) {
   if (s.type === 'circle') {
     return Math.hypot(x - +s.cx, y - +s.cy) - +s.r;
+  }
+  if (s.type === 'ellipse') {
+    // Check if point is INSIDE the (possibly rotated) ellipse.
+    // Apply inverse rotation from the transform="rotate(angle cx cy)" if present.
+    let lx = x - +s.cx, ly = y - +s.cy;
+    if (s.transform) {
+      const m = s.transform.match(/rotate\(([-\d.]+)[, ]+([-\d.]+)[, ]+([-\d.]+)\)/);
+      if (m) {
+        const [, ang, px, py] = m.map(Number);
+        const rad = (-ang * Math.PI) / 180;
+        const ox = x - px, oy = y - py;
+        lx = ox * Math.cos(rad) - oy * Math.sin(rad);
+        ly = ox * Math.sin(rad) + oy * Math.cos(rad);
+      }
+    }
+    const nx = lx / +s.rx, ny = ly / +s.ry;
+    // Return negative if inside (filled shape), positive if outside
+    return Math.hypot(nx, ny) - 1;
   }
   if (s.type === 'rect') {
     const segs = [];
@@ -72,7 +90,9 @@ for (let gy = 0; gy < ROWS; gy++) {
         for (const s of fig.shapes) {
           const d = shapeDist(s, u, v);
           const r = s.type === 'circle' ? 0 : s.className === 'prop' ? 2.5 : 3.5;
-          if (d <= r) col = COLORS[s.className] ?? COLORS.limb;
+          // Ellipses are filled shapes — inside = d < 0; everything else is stroke
+          const hit = s.type === 'ellipse' ? d < 0 : d <= r;
+          if (hit) col = COLORS[s.className] ?? COLORS.limb;
         }
         if (col) {
           const o = ((gy * CELL + y) * W + gx * CELL + x) * 4;

@@ -81,12 +81,10 @@ body {
   stroke-linejoin: round;
 }
 
-.figure .accent {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.figure .muscle {
+  fill: var(--accent);
+  stroke: none;
+  opacity: 0.88;
 }
 
 .figure .head {
@@ -95,9 +93,10 @@ body {
 
 .figure .prop {
   fill: none;
-  stroke: #d1d5db;
+  stroke: #c4c9d0;
   stroke-width: 5;
   stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .name {
