@@ -1,0 +1,47 @@
+name: Build, test & deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to pwa branch (/docs)
+        if: github.event_name != 'pull_request'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          rm -rf /tmp/deploy
+          mkdir -p /tmp/deploy/docs
+          cp -r dist/. /tmp/deploy/docs/
+          touch /tmp/deploy/docs/.nojekyll
+          cd /tmp/deploy
+          git init -b pwa
+          git add -A
+          git commit -m "Deploy ${GITHUB_SHA}"
+          git push --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" pwa
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
