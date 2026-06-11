@@ -69,34 +69,15 @@ body {
 }
 
 .figure {
-  width: min(60vw, 15rem);
+  max-width: min(60vw, 15rem);
+  max-height: min(38vh, 16rem);
+  width: auto;
   height: auto;
+  user-select: none;
 }
 
-.figure .limb {
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.figure .muscle {
-  fill: var(--accent);
-  stroke: none;
-  opacity: 0.88;
-}
-
-.figure .head {
-  fill: var(--ink);
-}
-
-.figure .prop {
-  fill: none;
-  stroke: #c4c9d0;
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.figure.mirrored {
+  transform: scaleX(-1);
 }
 
 .name {
