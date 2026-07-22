@@ -6,8 +6,17 @@ on:
   pull_request:
   workflow_dispatch:
 
+# Allow GITHUB_TOKEN to deploy to GitHub Pages
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment, skipping runs queued between the run
+# in-progress and latest queued.
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -29,19 +38,20 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy to pwa branch (/docs)
+      - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          rm -rf /tmp/deploy
-          mkdir -p /tmp/deploy/docs
-          cp -r dist/. /tmp/deploy/docs/
-          touch /tmp/deploy/docs/.nojekyll
-          cd /tmp/deploy
-          git init -b pwa
-          git add -A
-          git commit -m "Deploy ${GITHUB_SHA}"
-          git push --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" pwa
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
